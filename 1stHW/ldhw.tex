@@ -1,0 +1,313 @@
+% Homework template for Learning from Data
+% by Xiangxiang Xu <xiangxiangxu.thu@gmail.com>
+% LAST UPDATE: October 8, 2018
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+% amsmath: equation*, amssymb: mathbb, amsthm: proof
+\usepackage{moreenum}
+\usepackage{mathtools}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs} % toprule
+\usepackage[mathcal]{eucal}
+\usepackage{dsfont}
+\usepackage[numbered,framed]{matlab-prettifier}
+\input{lddef}
+
+\lstset{
+  style              = Matlab-editor,
+  captionpos         =b,
+  basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\begin{document}
+\courseheader
+
+\newcounter{hwcnt}
+\setcounter{hwcnt}{1}
+
+\begin{center}
+    \underline{\bf Homework \thehwcnt} \\
+\end{center}
+\begin{flushleft}
+    YOUR NAME\hfill
+    \today
+\end{flushleft}
+\hrule
+\vspace{2em}
+\setlist[enumerate,1]{label=\thehwcnt.\arabic*.}
+\setlist[enumerate,2]{label={(\alph*)}
+\setlist[enumerate,3]{label=\roman*.}
+\setlist[enumerate,4]{label=\greek*)}
+
+\flushleft
+\rule{\textwidth}{1pt}
+\begin{itemize}
+\item {\bf Acknowledgments: \/}
+    This template takes some materials from course CSE 547/Stat 548 of Washington University: \small 
+    {\url{https://courses.cs.washington.edu/courses/cse547/17sp/index.html}}.
+\item {\bf Collaborators: \/}
+    I finish my homework all by myself.
+\end{itemize}
+\rule{\textwidth}{1pt}
+
+\vspace{2em}
+
+
+%%% Now Start the main part of this assignment. %%%
+
+Consider the problem of claasifying $l$ samples using SVM, where $ \bx_i \in \mathbb{R}^{n}$, \\ 
+$\by_i \in \{-1,1\}$, $(i=1,\dots, l)$.
+
+\begin{enumerate}
+    \setlength{\itemsep}{3\parskip}
+    \item Suppose the data are linearly separable. The optimization problem of SVM is 
+    \begin{equation}
+        \tag{P}
+        \begin{aligned}
+            &\minimize_{\bw,b}& &\frac12 \| \bw\|_2^2\\
+            &\st& &y_i(\bw^{\T}\bx_i+b) \geq 1, \quad i = 1, \dots, l,
+        \end{aligned}
+        \label{eq:svm:p}
+    \end{equation}
+    and let $(\bw^{\star},b^{\star}) $ denote its optimal solution.
+    \begin{enumerate}
+    \item Show that
+        \begin{equation*}
+        b^{\star} = -\frac12 \left(\max_{i\colon y_i=-1} \bw^{\star\T}\bx_i + \min_{i\colon y_i=1}
+        \bw^{\star\T}\bx_i \right).
+        \end{equation*}
+
+        \noindent The corresponding Lagrange dual problem is given by
+        \begin{equation}
+            \tag{D}
+            \begin{aligned}
+            &\maximize_{\balpha}& &\sum_{i=1}^{l} \alpha_i - \frac12 \sum_{i=1}^{l} 
+            \sum_{j=1}^{l} \alpha_i \alpha_j y_i y_j \langle \bx_i,\bx_j \rangle\\
+            &\st& &\alpha_i \geq 0, \quad i = 1, \dots, l,\\
+            &&&\sum_{i=1}^{l} \alpha_i y_i = 0.
+            \end{aligned}
+            \label{eq:svm:d}
+        \end{equation}
+        Suppose the optimal solution of \eqref{eq:svm:d} is $\balpha^{\star}=(\alpha_{1}^{\star},
+            \cdots \alpha_l^{\star})^{\T}$,from the KKT conditions we know that
+        \begin{equation}
+        \begin{gathered}
+            \bw^{\star} = \sum_{i=1}^{l}\alpha_i^{\star}y_i\bx_i,\\
+            \sum_{i=1}^{l}\alpha_i^{\star}\left[y_i(\bw^{\star\T}\bx_i+b^{\star})-1\right] = 0.
+        \end{gathered}
+        \label{eq:kkt}
+        \end{equation}
+
+        \begin{proof}
+            From a condition from the \eqref{eq:kkt}:
+            \begin{equation*}
+            \begin{aligned}
+              & \sum_{i=1}^{l}\alpha_i^{\star}\left[y_i(\bw^{\star\T}\bx_i+b^{\star})-1\right] = 0 &\\
+              & \sum_{i=1}^{l}\alpha_i^{\star}\left[(\bw^{\star\T}\bx_i+b^{\star})-y_i\right]  = 0 & 
+            \end{aligned}
+            \end{equation*}
+            There is at least one $\alpha_j^{\star} > 0$ 
+                that let $\bw^{\star\T}\bx_j + b^{\star} - y_j = 0$.\\
+            As the data are linearly separable, for any $y_j=1$, $\bw^{\star}\bx_j + b^{\star} \geq 1$,
+            So that \begin{equation*}
+                \min_{j:y_j=1}\{\bw^{\star}\bx_j + b^{\star}\} = 1
+            \tag{1.a.1}
+            \end{equation*}
+            Similarily, for any $y_j=-1$, $\bw^{\star}\bx_j + b^{\star} \leq -1$,
+            So that \begin{equation*}
+                \max_{j:y_j=-1}\{\bw^{\star}\bx_j + b^{\star}\} = -1
+            \tag{1.a.2}
+            \end{equation*}
+            Sum up the equation {1.a.1} and {1.a.2}, here it is:
+            \begin{equation*}
+                b^{\star} = -\frac12 \left(\max_{i\colon y_i=-1} \bw^{\star\T}\bx_i + \min_{i\colon y_i=1}
+                    \bw^{\star\T}\bx_i \right).
+            \end{equation*}
+        \end{proof}
+
+    \item Based on \eqref{eq:kkt}, verify that
+        \begin{equation*}
+            \frac{1}{2} \| \bw^{\star} \| _{2}^{2} = \sum_{i=1}^{l}\alpha_i^{\star} - 
+            \frac{1}{2} \sum_{i=1}^{l} \sum_{j=1}^{l} \alpha_i^{\star} \alpha_j^{\star}
+            y_i y_j \langle \bx_i \bx_j \rangle = \frac12 \sum_{i=1}^{l}\alpha_i^{\star}.
+        \end{equation*}
+        
+       \begin{proof}
+            From a condition from the \eqref{eq:kkt}:
+            \begin{equation*}
+            \begin{aligned}
+                 &\sum_{i=1}^{l}\alpha_i^{\star}\left[y_i(\bw^{\star\T}\bx_i+b^{\star})-1\right] = 0 \\
+                 &\sum_{i=1}^{l}\alpha_i^{\star}y_i\bw^{\star\T}\bx_i + 
+                    b^{\star}\sum_{i=1}^{l}\alpha_i^{\star}y_i - \sum_{i=1}^{l}\alpha_i^{\star} = 0  \\
+                 &\sum_{i=1}^{l}\alpha_i^{\star} = \sum_{i=1}^{l}\alpha_i^{\star}y_i\bw^{\star\T}\bx_i 
+                    = \bw^{\star\T}\bw^{\star} = \|\bw^{\star}\|_2^2
+            \end{aligned}
+            \end{equation*}
+            And as \begin{equation*}
+                \sum_{i=1}^{l}\alpha_i^{\star}y_i\bw^{\star\T}\bx_i = 
+                \sum_{i=1}^{l} \sum_{j=1}^{l} \alpha_i^{\star} \alpha_j^{\star} 
+                y_i y_j \langle \bx_i,\bx_j \rangle
+                \end{equation*}
+            Here it is:
+            \begin{equation*}
+            \begin{aligned}
+                \frac12 \|\bw^{\star} \|_2^2 &= \bw^{\star\T}\bw^{\star} - 
+                    \frac12 \bw^{\star\T}\bw^{\star}\\
+                    &= \sum_{i=1}^{l}\alpha_i^{\star} - 
+                    \frac12 \sum_{i=1}^{l}\sum_{j=1}^{l}  \alpha_i^{\star}\alpha_j^{\star} 
+                        y_i y_j \langle \bx_i \bx_j \rangle 
+            \end{aligned}
+            \end{equation*}
+        \end{proof}
+    \end{enumerate}
+
+    \item When the data are not linearly separable, consider the soft-margin SVM given by
+        \begin{equation}
+        \begin{aligned}
+            &\minimize_{\bw,b,\bxi}& &\frac12 \|\bw\|_2^2 + C\sum_{i=1}^{l}\xi_i \\
+            &\st& &\xi_i \geq 0, \quad i = 1,\dots,l, \\
+            &&& y_i(\bw^{\T}\bx_i + b) \geq 1 - \xi_i, i = 1,\dots,l,
+        \end{aligned}
+        \label{eq:svm:soft-margin}
+        \end{equation}
+        where $C>0$ is a fixed parameter.
+        \begin{enumerate}
+        \item Show that \eqref{eq:svm:soft-margin} is equivalent\footnote{
+                      Two optimization problems are called equivalent if from a solution of one,
+                      a solution of the other is readily found, and vice versa.} to
+            \begin{equation}
+                \minimize_{\bw,b} \quad \frac12 \|\bw\|_2^2 + C\sum_{i=1}^{l} \ell(y_i,\bw^{\T}\bx_i+b),
+            \label{eq:svm:hinge}
+            \end{equation}
+            where $\ell(\cdot,\cdot)$ is the hinge loss defined by $\ell(y,z) \defeq \max\{1-yz,0\}$.
+        \begin{proof}
+            \quad Let $\xi_i = \ell(y_i,\bw^{\star\T}\bx_i+b)$, As \begin{equation*}
+                \ell(y_i,\bw^{\star\T}\bx_i+b) = \max(0,1-y_i(\bw^{\star\T}\bx_i,+b)) 
+                \end{equation*}
+                The $\xi_i \geq 0,\quad i = 1,\dots,l$.\\
+            When \begin{equation*}
+                1 - y_i(\bw^{\star\T}\bx_i + b) > 0
+            \end{equation*}
+            The $\xi_i = 1 - y_i(\bw^{\star\T}\bx_i+b)$, so that:
+            \begin{equation*}
+                y_i(\bw^{\star\T}+b) = 1 - \xi_i
+            \tag{2.a.1}
+            \end{equation*}
+            When \begin{equation*}
+                1 - y_i(\bw^{\star\T}\bx_i + b) \leq 0
+            \end{equation*}
+            The $\xi_i = 0$, so that:
+            \begin{equation*}
+                y_i(\bw^{\star\T}\bx_i + b) &\geq 1 - 0 \geq 1 - \xi_i
+            \tag{2.a.2}
+            \end{equation*}
+            Combine the (2.a.1) and (2.a.2), it is easy to acquire that \begin{equation*}
+                y_i(\bw^{\star\T}\bx_i+b) \geq 1 - \xi_i, \quad i = 1,\dots,l.
+            \end{equation*}
+            Taking all above into consideration, the \eqref{eq:svm:hinge} can be transformed as:
+            \begin{equation*}
+            \begin{aligned}
+                &\minimize_{\bw,b,xi_i}& &\frac12 \|\bw\|_2^2+C\sum_{i=1}^{l}\xi_i \\
+                &\st& &\xi_i \geq 0, \quad i = 1,\dots,l,\\
+                &&& y_i(\bw^{\star\T}\bx_i+b) \geq 1 - \xi_i,\quad i = 1,\dots,l.
+            \end{aligned}
+            \end{equation*}
+            Which is equivalent to the \eqref{eq:svm:soft-margin}.
+        \end{proof}
+
+        \item Show that the objective function of \eqref{eq:svm:hinge}, denoted by $f(\bw,b)$,
+        is convex, i.e.,
+            \begin{equation}
+                f(\theta\bw_1+(1-\theta)\bw_2,\theta b_1 + (1-\theta)b_2) &\leq \theta f(\bw_1,b_1)
+                + (1-\theta)f(\bw_2,b_2).
+            \label{eq:svm:obj}
+            \end{equation}
+        for all $\bw_1,\bw_2 \in \reals^{n}, b_1, b_2 \in \reals$, and $\theta \in [0, 1]$.
+        
+        \begin{proof}
+            The left part of the \eqref{eq:svm:obj}: 
+            \begin{subequations} \label{eq:svm:obj_left}
+                \begin{align}
+                &f(\theta\bw_1+(1-\theta)\bw_2,\theta b1+(1-\theta)b2) \nonumber \\
+                & =\frac{\theta^2}{2}\bw_1^{\T}\bw_1+
+                  \frac{(1-\theta)^2}{2}\bw_2^{\T}\bw_2 + 
+                  \frac{\theta(1-\theta)}{2}(\bw_1^{\T}\bw_2+\bw_2^{\T}\bw_1) \label{eq:svm:obj_left:1} \\
+                & +C\sum_{i=1}^{l}\ell
+                    \left(y_i,(\theta\bw_1+(1-\theta)\bw_2)^{\T}x_i+\theta b_1+(1-\theta)b_2\right)
+                    \label{eq:svm:obj_left:2} 
+            \end{align}
+            \end{subequations}
+
+            The right part of the \eqref{eq:svm:obj}:
+            \begin{subequations}\label{eq:svm:obj_right}
+                \begin{align}
+                &\theta f(\bw_1,b_1)+(1-\theta)f(\bw_2,b_2) \nonumber \\
+                &=\frac{\theta}{2}\bw_1^{\T}\bw_1+\frac{(1-\theta)}{2}\bw_2^{\T}\bw_2 
+                    \label{eq:svm:obj_right:1} \\
+                &+\theta C\sum_{i=1}^{l}\ell(y_i,\bw_1^{\T}x_i+b_1)+
+                    (1-\theta)C\sum_{i=1}^{l}\ell(y_i,\bw_2^{\T}x_i+b_2) \label{eq:svm:obj_right:2}
+                \end{align}
+            \end{subequations}
+            The \eqref{eq:svm:obj_right:1} - \eqref{eq:svm:obj_left:1} is:
+            \begin{equation*}
+            \begin{aligned}
+                &\frac{\theta^2}{2}(\bw_1-\bw_2)^{\T}(\bw_1-\bw_2)
+                +\frac{\theta}{2}(\bw_1^{\T}\bw_2+\bw_2^{\T}\bw_1-\bw_2^{\T}\bw_2)
+                    +\frac{(1-\theta)}{2}\bw_2^{\T}\bw_2 &\\
+                &-(\frac{\theta}{2}\bw_1^{\T}\bw_1 +
+                    \frac{(1-\theta)}{2}\bw_2^{\T}\bw_2)& \\
+                =& \frac{\theta}{2}\left(\bw_1^{\T}\bw_1-\theta(\bw_1^{\T}\bw_1+\bw_2^{\T}\bw_2-
+                    \bw_1^{\T}\bw_2-\bw_2^{\T}\bw_1)+
+                    \bw_2^{\T}\bw_2-\bw_1^{\T}\bw_2-\bw_2^{\T}\bw_1\right) &\\
+                =& \frac{\theta(1-\theta)}{2}(\bw_1^{\T}\bw_1+\bw_2^{\T}\bw_2
+                    -\bw_1^{\T}\bw_2-\bw_2^{\T}\bw_1) &\\
+                =& \frac{\theta(1-\theta)}{2}(\bw_1-\bw_2)^{\T}(\bw_1-\bw_2) \geq 0.&
+            \end{aligned}
+            \end{equation*}
+            So that the $ \eqref{eq:svm:obj_left:1} \leq \eqref{eq:svm:obj_right:1}$.\\
+
+            Similarily, let $\bz_{1,i}=\bw_1^{\T}\bx_i+b_1$ and $\bz_{2,i}=\bw_2^{\T}\bx_i+b_2$,\\
+
+            The \eqref{eq:svm:obj_right:2} - \eqref{eq:svm:obj_left:2} is:
+            \begin{subequations}
+            \begin{align}
+                &\theta C\sum_{i=1}^{l}\ell(y_i,\bz_{1,i})+
+                    (1-\theta)C\sum_{i=1}^{l}\ell(y_i,\bz_{2,i})
+                -C\sum_{i=1}^{l}\ell(y_i,\theta\bz_{1,i}+(1-\theta)\bz_{2,i}) \nonumber &\\
+                = & C\theta\sum_{i=1}^{l}\max\{0,1-y_i\bz_{1,i}\} 
+                    +C(1-\theta)\sum_{i=1}^{l}\max\{0,1-y_i\bz_{2,i}\} \label{eq:7a}\\
+                &- C\sum_{i=1}^{l}\max\{0,1-y_i(\theta\bz_{1,i}+(1-\theta)\bz_{2,i})\} \label{eq:7b}&
+            \end{align}
+            \end{subequations}
+            Since $\max\{u,v\} = \frac12(u+v+|u-v|)$,
+            \begin{equation*}
+            \begin{aligned}
+                \eqref{eq:7a} =& C\sum_{i=1}^{l}\left[1-y_i(\theta\bz_{1,i}+(1-\theta)\bz_{2,i})+
+                    |1-y_i(\theta\bz_{1,i}+(1-\theta)\bz_{2,i})|\right]\\
+                \eqref{eq:7b} =& C\sum_{i=1}^{l}\left[1-\theta y_i\bz_{1,i}-(1-\theta)y_i\bz_{2,i}+
+                    |\theta(1-y_i\bz_{1,i})|+|(1-\theta)(1-y_i\bz_{2,i})|\right]
+            \end{aligned}
+            \end{equation*}
+            The \eqref{eq:svm:obj_right:2} - \eqref{eq:svm:obj_left:2} is:
+            \begin{equation*}
+            \begin{aligned}
+                \eqref{eq:7b}-\eqref{eq:7a} =& C\sum_{i=1}^{l}\left[|\theta(1-y_i\bz_{1,i})|+
+                    |(1-\theta)(1-y_i\bz_{2,i})| \\
+                    &- |\theta(1-y_i\bz_{1,i})+(1-\theta)(1-y_i\bz_{2,i})|\right] \geq 0
+            \end{aligned}
+            \end{equation*}
+            That is the $\eqref{eq:svm:obj_left:2} \leq \eqref{eq:svm:obj_right:2}$.\\
+            With all above, the $\eqref{eq:svm:obj_left:1}+\eqref{eq:svm:obj_left:2} \leq 
+                \eqref{eq:svm:obj_right:1}+\eqref{eq:svm:obj_right:2}$, 
+                so the \eqref{eq:svm:obj} is proved to be true.
+        \end{proof}
+        \end{enumerate}
+\end{enumerate}
+\end{document}
