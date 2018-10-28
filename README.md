@@ -5,6 +5,6 @@ in https://ctan.org/pkg/thucoursework for more details.
 ## 1stHW ##
 Support Vector Machine (SVM)  
 ## 2ndHW ##
-Solving Linear Regression and Softmax Regression by Gradient Descent Algorithm only with *Numpy.  
+Solving Linear Regression and Softmax Regression by Gradient Descent Algorithm only with *Numpy*.  
 
 
