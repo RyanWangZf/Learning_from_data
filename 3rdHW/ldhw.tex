@@ -144,7 +144,7 @@ there are two possible cases: \\
         -\frac12(\log|\Sigma| + \mu^{\T}\Sigma^{-1}\mu) \\
     &= -\frac12(tr(\Sigma^{-1}yy^{\T})-tr(\Sigma^{-1}\mu y^{\T})-tr(\mu^{\T}\Sigma^{-1}y) )
         -\frac12(\log|\Sigma| + \mu^{\T}\Sigma^{-1}\mu) \\
-    &= -\frac12tr(\Sigma^{-1}yy^{\T}-\Sigma^{-1}\mu y^{\T}-\mu^{\T}\Sigma^{-1}y)
+    &= -\frac12tr(\Sigma^{-1}yy^{\T}-2\mu^{\T}\Sigma^{-1}y)
         -\frac12(\log|\Sigma| + \mu^{\T}\Sigma^{-1}\mu) 
     \end{aligned}
     \label{eq:6}
@@ -152,8 +152,8 @@ there are two possible cases: \\
     let 
     \begin{equation}
     \begin{align}
-    &\bm{\eta} = -\frac12(\Sigma^{-1},\Sigma^{-1}\mu,\mu^{\T}\Sigma^{-1})^{\T} \\
-    &T(y) = (yy^{\T},y^{\T},y)^{\T}
+    &\bm{\eta} = (\vecf^{\T}(-\frac12\Sigma^{-1}),\mu^{\T}\Sigma^{-1})^{\T} \\
+    &T(y) = (\vecf(yy^{\T}),y)^{\T}
     \end{align}
     \label{eq:7}
     \end{equation}
@@ -176,8 +176,8 @@ there are two possible cases: \\
     \begin{equation*}
     \begin{align}
     &b(y) = \frac1{(2\pi)^{\fracn2}} \\
-    &\bm{\eta} = -\frac12(\Sigma^{-1},\Sigma^{-1}\mu,\mu^{\T}\Sigma^{-1})^{\T} \\
-    &T(y) = (yy^{\T},y^{\T},y)^{\T} \\
+    &\bm{\eta} = (\vecf^{\T}(-\frac12\Sigma^{-1}),\mu^{\T}\Sigma^{-1})^{\T} \\
+    &T(y) = (\vecf(yy^{\T}),y)^{\T} \\
     &a(\bm{\eta}) =  \frac12(\log|\Sigma| + \mu^{\T}\Sigma^{-1}\mu) 
     \end{align}
     \end{equation*}

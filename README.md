@@ -6,5 +6,8 @@ in https://ctan.org/pkg/thucoursework for more details.
 Support Vector Machine (SVM)  
 ## 2ndHW ##
 Solving Linear Regression and Softmax Regression by Gradient Descent Algorithm only with *Numpy*.  
+## 3rdHW ##
+Exponential family, the Generalized Linear Model (GLM).  
+
 
 
