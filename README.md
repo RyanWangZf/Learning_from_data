@@ -2,18 +2,26 @@
 The homework of the course *Learning From Data* taught by Prof.HUANG in Tsinghua-Berkeley Shenzhen Institute(TBSI).
 The template comes from the THUCoursework by XiangXiang XU & Feng ZHAO,  
 in https://ctan.org/pkg/thucoursework for more details.  
-## 1stHW ##
+## ps1 ##
 problem set1  
 Support Vector Machine (SVM)  
-## 2ndHW ##
+## pa1 ##
 programming assignment1  
 Solving Linear Regression and Softmax Regression by Gradient Descent Algorithm only with *Numpy*.  
-## 3rdHW ##
+## ps2 ##
 problem set2  
 Exponential family, the Generalized Linear Model (GLM).  
-## 4rdHW ##
+## pa2 ##
 programming assignment2  
 Gaussian Discriminant Analysis model, including Linear DA (LDA) and Quadratic DA (QDA).  
+## ps3 ##
+problem set3  
+k-means clustering & PCA  
+## pa3 ##
+programming assignment3  
+backpropagation algorithm on training simple neural networks  
+## pa4 ##
+Algernating Conditional Expectation (ACE) algorithm & HGR maximal correlation  
 
 
 

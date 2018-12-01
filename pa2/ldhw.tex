@@ -1,0 +1,113 @@
+% Homework template for Learning from Data
+% by Xiangxiang Xu <xiangxiangxu.thu@gmail.com>
+% LAST UPDATE: October 8, 2018
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+% amsmath: equation*, amssymb: mathbb, amsthm: proof
+\usepackage{moreenum}
+\usepackage{mathtools}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs} % toprule
+\usepackage[mathcal]{eucal}
+\usepackage{dsfont}
+\usepackage[numbered,framed]{matlab-prettifier}
+\input{lddef}
+
+\lstset{
+  style              = Matlab-editor,
+  captionpos         =b,
+  basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\begin{document}
+\courseheader
+
+\newcounter{hwcnt}
+\setcounter{hwcnt}{3}
+
+\begin{center}
+    \underline{\bf Homework \thehwcnt} \\
+\end{center}
+\begin{flushleft}
+    Your Name\hfill
+    \today
+\end{flushleft}
+\hrule
+\vspace{2em}
+\setlist[enumerate,1]{label=\thehwcnt.\arabic*.}
+\setlist[enumerate,2]{label={(\alph*)}
+\setlist[enumerate,3]{label=\roman*.}
+\setlist[enumerate,4]{label=\greek*)}
+
+\flushleft
+\rule{\textwidth}{1pt}
+\begin{itemize}
+\item {\bf Acknowledgments: \/}
+    This template takes some materials from course CSE 547/Stat 548 of Washington University: \small 
+    {\url{https://courses.cs.washington.edu/courses/cse547/17sp/index.html}}.
+\item {\bf Collaborators: \/}
+    I finish my homework all by myself.
+\end{itemize}
+\rule{\textwidth}{1pt}
+
+\vspace{2em}
+
+
+%%% Now Start the main part of this assignment. %%%
+
+\begin{enumerate}
+\item \textbf{Solution:}
+when $K=2$, the conditional distribution of data $x$ is
+\begin{equation}
+Pr(x^{i}|y^i=j;\theta) = \rm{Norm}_x(\mu_j,\Sigma_j), \quad j \in \{1,\cdots,K\}
+\end{equation}
+the log likelihood function is
+\begin{equation}
+\begin{align}
+\mathcal{L} &= \log \prod_{i=1}^m Pr(x^i|y^i;\theta) Pr(y^i|\theta) \\
+&= \sum_{i=1}^m \log Pr(x^i|y^i;\theta) + \log Pr(y^i|\theta) 
+\end{align}
+\end{equation}
+the derivative of $\mathcal{L}$ by $\Sigma_j$ is
+\begin{equation}
+    \frac{\partial\mathcal{L}}{\partial\Sigma_j} = 
+    \sum_{i=1}^m \frac1{Pr(x^i|y^i;\theta)}\frac{\partial Pr(x^i|y^i;\theta)}{\partial \Sigma_j} \1\{y^i=j\}
+    \label{eq:3}
+\end{equation}
+as 
+\begin{equation}
+\begin{align}
+    \frac{\partial Pr(x^i|y^i;\theta)}{\partial \Sigma_j} &=
+    \frac1{(2\pi)^{n/2}}e^{-0.5(x-\mu_j)^{\T}\Sigma_j^{-1}(x-\mu_j)} \\
+    &* \{\frac{\partial\frac1{|\Sigma_j|^{1/2}}}{\partial\Sigma_j} 
+    + \frac1{|\Sigma_j|^{1/2}} \frac{\partial(-0.5(x-\mu_j)^{\T}\Sigma_j^{-1}(x-\mu_j))}{\partial\Sigma_j} \}\\
+    &= \frac1{(2\pi)^{n/2}}e^{-0.5(x-\mu_j)^{\T}\Sigma_j^{-1}(x-\mu_j)} \\
+    &* \{-\frac12|\Sigma_j|^{-1/2}\Sigma_j^{-1} + \frac12|\Sigma_j|^{-1/2}\Sigma_j^{-1}
+    (x-\mu_j)(x-\mu_j)^{\T}\Sigma_j^{-1}\} \\
+    &= \frac1{(2\pi)^{n/2}}e^{-0.5(x-\mu_j)^{\T}\Sigma_j^{-1}(x-\mu_j)} \\
+    &* -\frac12|\Sigma_j|^{-1/2}\Sigma_j^{-1} \{I - (x-\mu_j)(x-\mu_j)^{\T}\Sigma_j^{-1}\}
+\end{align}
+\label{eq:4}
+\end{equation}
+combine the \eqref{eq:3} and \eqref{eq:4}, then let $\frac{\partial\mathcal{L}}{\partial\Sigma_j} = 0$, we get
+\begin{equation}
+\begin{aligned}
+ -\frac12\sum_{i=1}^m\1\{ y^i=j\}\Sigma_j^{-1}[I-(x-\mu_j)(x-\mu_j)^{\T}\Sigma_j^{-1}] = 0 \\
+ \Sigma_j \sum_{i=1}^m\1\{y^i=j\} = \sum_{i=1}^m\1\{y^i=j\}(x-\mu_j)(x-\mu_j)^{\T} 
+\end{aligned}
+\end{equation}
+therefore the maximum likelihood estimate of $\Sigma_j$ for the case of $K=2$ in QDA model is
+\begin{equation}
+\hat{\Sigma_j} = \frac{ \sum_{i=1}^m\1\{y^i=j\}(x^i-\mu_j)(x^i-\mu_j)^{\T} }{\sum_{i=1}^m \1\{y^i=j\}}
+\end{equation}
+\end{enumerate}
+
+
+\end{document}
