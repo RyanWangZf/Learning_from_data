@@ -1,4 +1,4 @@
-# HW_learning_from_data
+# learning from data: programming assignment #
 The homework of the course *Learning From Data* taught by Prof.HUANG in Tsinghua-Berkeley Shenzhen Institute(TBSI).  
 ## pa1 ##
 programming assignment1  
