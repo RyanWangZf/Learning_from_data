@@ -105,8 +105,11 @@ def main():
     phi_1,psi_1 = second_sv_fn(matrix_B,sqrt_Py)
     
     gy = psi_1 / sqrt_Py
-    second_sv = psi_1
-
+    
+    import pdb
+    M = matrix_B.T.dot(matrix_B)
+    second_sv = np.sqrt(psi_1.T.dot(M).dot(psi_1))
+    
     # gy = 
     #second_sv = 
     

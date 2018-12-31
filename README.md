@@ -22,6 +22,8 @@ programming assignment3
 backpropagation algorithm on training simple neural networks  
 ## pa4 ##
 Algernating Conditional Expectation (ACE) algorithm & HGR maximal correlation  
+## pa5 ##
+Reinforcement learning (RL), a demo of cartpole-v1, on Pytorch  
 
 
 
